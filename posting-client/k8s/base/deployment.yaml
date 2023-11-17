@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reise-buchung
+spec:
+  selector:
+    matchLabels:
+      app: reise-buchung
+  template:
+    metadata:
+      labels:
+        app: reise-buchung
+    spec:
+      containers:
+        - name: reise-buchung
+          image: reise-buchung
+          imagePullPolicy: IfNotPresent

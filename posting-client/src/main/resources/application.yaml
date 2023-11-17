@@ -1,0 +1,28 @@
+server.port: 9999
+
+spring.temporal:
+  host: localhost
+  port: 7233
+  useSsl: false
+  createWorkers: true
+  namespace: billing
+  workflowDefaults:
+    executiontimeout: 1000
+    executiontimeoutUnit: SECONDS
+    activityPoolSize: 100
+    workflowPoolSize: 50
+  workflows:
+    PostOperation:
+      taskQueue: PostOperation
+
+management:
+  endpoint:
+    info:
+      enabled: true
+  endpoints:
+    jmx:
+      exposure:
+        include: "*"
+    web:
+      exposure:
+        include: "health,metrics,prometheus,loggers"

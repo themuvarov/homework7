@@ -1,0 +1,8 @@
+###
+POST http://localhost:9999/post/v1/operation
+Content-Type: application/json
+
+{ "id" : 23,
+  "agent": "agent_4",
+  "sum": 12
+}

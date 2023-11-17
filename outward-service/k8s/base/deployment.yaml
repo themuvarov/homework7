@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flug-service
+spec:
+  selector:
+    matchLabels:
+      app: flug-service
+  template:
+    metadata:
+      labels:
+        app: flug-service
+    spec:
+      containers:
+        - name: flug-service
+          image: flug-service
+          imagePullPolicy: IfNotPresent

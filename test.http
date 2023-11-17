@@ -1,0 +1,15 @@
+POST http://reise-buchung.localtest.me/reisen/v1/buchung
+Content-Type: application/json
+
+{
+  "billingDto": {
+    "name": "Test"
+  },
+  "tariff": {
+    "flugnummer": "123456"
+  }
+}
+
+###
+
+PUT http://reise-buchung.localtest.me/reisen/v1/buchung/reise-074f27ba-6814-4162-924c-e3e9a0ee6cfa/stornieren
