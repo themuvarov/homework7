@@ -1,0 +1,71 @@
+{
+	"info": {
+		"_postman_id": "45e80aec-b57c-4b24-93aa-f50eec5cdc21",
+		"name": "homework7",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4055386",
+		"_collection_link": "https://www.postman.com/muvarov232/workspace/dz3/collection/4055386-45e80aec-b57c-4b24-93aa-f50eec5cdc21?action=share&source=collection_link&creator=4055386"
+	},
+	"item": [
+		{
+			"name": "Normal process",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\" : 23,\"agent\": \"agent_4\",\"sum\": 12}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://arch.homework/post/v1/operation",
+					"protocol": "http",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"post",
+						"v1",
+						"operation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Saga compensation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\" : 23,\"agent\": \"agent_99\",\"sum\": 12}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://arch.homework/post/v1/operation",
+					"protocol": "http",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"post",
+						"v1",
+						"operation"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
