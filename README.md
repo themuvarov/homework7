@@ -2,14 +2,17 @@
 
 1. Клонировать репозиторий проекта
 
-```git clone git@github.com:themuvarov/homework7.git```
+```
+git clone git@github.com:themuvarov/homework7.git
+```
 
 Код с бизнес-логикой и логикой компенсации Saga тут
 https://github.com/themuvarov/homework7/blob/main/posting-client/src/main/java/demo/workflow/posting/PostOperationWorkflowImpl.java#L36
 
 2. Установить Temporal.io
 
-```git clone https://github.com/temporalio/helm-charts.git
+```
+git clone https://github.com/temporalio/helm-charts.git
 cd helm-charts
 helm install     --set server.replicaCount=1     --set cassandra.config.cluster_size=1     --set prometheus.enabled=false     --set grafana.enabled=false     --set elasticsearch.enabled=false     temporaltest . --timeout 15m
   ```
