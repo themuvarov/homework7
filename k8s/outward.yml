@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: outward
+  labels:
+    app: outward
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: outward
+  template:
+    metadata:
+      labels:
+        app: outward
+    spec:
+      containers:
+      - name: outward
+        image: dubec/saga_outward:0.0.6
+        ports:
+        - containerPort: 8989
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8989
+          successThreshold: 1
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: outward-service
+spec:
+  selector:
+    app: outward
+  ports:
+    - port: 8989
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: outward-outward-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: arch.homework
+      http:
+        paths:
+          - pathType: Prefix
+            path: /outward(/|$)(.*)
+            backend:
+              service:
+                name: outward-service
+                port:
+                  number: 8989
+

@@ -20,8 +20,8 @@ public class PostingService implements PostingActivity {
     private final WebClient webClientBilling;
 
     public PostingService(WebClient.Builder webClientBuilder) {
-        this.webClientOutward = webClientBuilder.baseUrl("http://localhost:8989/outward/v1").build();
-        this.webClientBilling = webClientBuilder.baseUrl("http://localhost:7878/billing/v1").build();
+        this.webClientOutward = webClientBuilder.baseUrl("http://outward-service:8989/outward/v1").build();
+        this.webClientBilling = webClientBuilder.baseUrl("http://billing-service:7878/billing/v1").build();
     }
 
     @Override

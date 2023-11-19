@@ -1,7 +1,7 @@
 server.port: 9999
 
 spring.temporal:
-  host: localhost
+  host: temporaltest-frontend
   port: 7233
   useSsl: false
   createWorkers: true
@@ -14,15 +14,3 @@ spring.temporal:
   workflows:
     PostOperation:
       taskQueue: PostOperation
-
-management:
-  endpoint:
-    info:
-      enabled: true
-  endpoints:
-    jmx:
-      exposure:
-        include: "*"
-    web:
-      exposure:
-        include: "health,metrics,prometheus,loggers"

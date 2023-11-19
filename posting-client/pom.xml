@@ -12,7 +12,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>posting-client</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.8-SNAPSHOT</version>
 
     <properties>
         <java.version>15</java.version>
@@ -24,32 +24,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.astefanutti.metrics.aspectj</groupId>
-            <artifactId>metrics-aspectj</artifactId>
-            <version>1.2.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>io.astefanutti.metrics.aspectj</groupId>
-            <artifactId>metrics-aspectj-deps</artifactId>
-            <version>1.2.0</version>
-        </dependency>
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -126,31 +111,6 @@
                         </tags>
                     </to>
                 </configuration>
-            </plugin>
-
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.8</version>
-                <configuration>
-                    <complianceLevel>1.8</complianceLevel>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <aspectLibraries>
-                        <aspectLibrary>
-                            <groupId>io.astefanutti.metrics.aspectj</groupId>
-                            <artifactId>metrics-aspectj</artifactId>
-                        </aspectLibrary>
-                    </aspectLibraries>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

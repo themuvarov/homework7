@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orchestrator
+  labels:
+    app: orchestrator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orchestrator
+  template:
+    metadata:
+      labels:
+        app: orchestrator
+    spec:
+      containers:
+      - name: orchestrator
+        image: dubec/saga_orchestrator:0.0.8
+        ports:
+        - containerPort: 9999
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 9999
+          successThreshold: 1
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: orchestrator-service
+spec:
+  selector:
+    app: orchestrator
+  ports:
+    - port: 9999
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: orchestrator-orchestrator-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: arch.homework
+      http:
+        paths:
+          - pathType: Prefix
+            path: /post(/|$)(.*)
+            backend:
+              service:
+                name: orchestrator-service
+                port:
+                  number: 9999
+

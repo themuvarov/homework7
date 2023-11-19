@@ -12,6 +12,6 @@
     <modules>
         <module>billing-service</module>
         <module>posting-client</module>
-        <module>tariff-service</module>
+        <module>outward-service</module>
     </modules>
 </project>
