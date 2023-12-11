@@ -1,44 +1,44 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: billing
+  name: notifier
   labels:
-    app: billing
+    app: notifier
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: billing
+      app: notifier
   template:
     metadata:
       labels:
-        app: billing
+        app: notifier
     spec:
       containers:
-      - name: billing
-        image: dubec/billing:0.0.9
+      - name: notifier
+        image: dubec/notifier:0.0.4
         ports:
-        - containerPort: 7878
+        - containerPort: 7829
         readinessProbe:
           httpGet:
             path: /actuator/health
-            port: 7878
+            port: 7829
           successThreshold: 1
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: billing-service
+  name: notifier-service
 spec:
   selector:
-    app: billing
+    app: notifier
   ports:
-    - port: 7878
+    - port: 7829
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: billing-ingress
+  name: notifier-ingress
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /health/
@@ -49,24 +49,17 @@ spec:
       http:
         paths:
           - pathType: Prefix
-            path: /otusapp/(.*)/(.*)
-            backend:
-              service:
-                name: billing-service
-                port:
-                  number: 7878
-          - pathType: Prefix
             path: /health(/|$)(.*)
             backend:
               service:
-                name: billing-service
+                name: notifier-service
                 port:
-                  number: 7878
+                  number: 7829
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: billing-billing-ingress
+  name: notifier-notifier-ingress
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
@@ -76,10 +69,9 @@ spec:
       http:
         paths:
           - pathType: Prefix
-            path: /billing(/|$)(.*)
+            path: /notifier(/|$)(.*)
             backend:
               service:
-                name: billing-service
+                name: notifier-service
                 port:
-                  number: 7878
-
+                  number: 7829

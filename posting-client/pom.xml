@@ -12,7 +12,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>posting-client</artifactId>
-    <version>0.0.8-SNAPSHOT</version>
+    <version>0.1.7-SNAPSHOT</version>
 
     <properties>
         <java.version>15</java.version>
@@ -43,6 +43,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+            <version>2.7.14</version>
+        </dependency>
+
+        <!-- json support -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.github.applicaai</groupId>
             <artifactId>spring-boot-starter-temporal</artifactId>
@@ -110,6 +123,13 @@
                             <tag>latest</tag>
                         </tags>
                     </to>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>demo.Application</mainClass>
                 </configuration>
             </plugin>
         </plugins>

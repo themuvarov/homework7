@@ -1,5 +1,6 @@
 package demo.workflow.posting;
 
+import demo.model.BillingDto;
 import demo.model.Counter;
 import demo.model.Billing;
 import io.temporal.activity.ActivityInterface;
@@ -7,11 +8,9 @@ import io.temporal.activity.ActivityInterface;
 @ActivityInterface
 public interface PostingActivity {
 
-    Integer billing(Billing billing);
+    Integer billing(BillingDto billing);
 
-    Integer rollbackBilling(Billing billing);
+    Integer rollbackBilling(BillingDto billing);
 
-    Integer createOutward(Billing billing);
-    Integer rollbackOutward(Billing billing);
 
 }

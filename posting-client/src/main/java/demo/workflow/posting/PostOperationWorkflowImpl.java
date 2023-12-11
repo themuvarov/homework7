@@ -1,40 +1,70 @@
 package demo.workflow.posting;
 
-import demo.model.Billing;
+import demo.model.*;
 
-import demo.model.Counter;
-import io.temporal.activity.Activity;
-import io.temporal.api.workflowservice.v1.RegisterNamespaceRequest;
 import io.temporal.workflow.Workflow;
+
+import java.math.BigDecimal;
 import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import ai.applica.spring.boot.starter.temporal.annotations.ActivityStub;
 import ai.applica.spring.boot.starter.temporal.annotations.RetryActivityOptions;
 import ai.applica.spring.boot.starter.temporal.annotations.TemporalWorkflow;
-import demo.model.PostingStatus;
-import demo.model.Operation;
-import io.temporal.failure.ActivityFailure;
-import io.temporal.workflow.Saga;
 
 @Component
 @TemporalWorkflow("PostOperation")
+@Slf4j
 public class PostOperationWorkflowImpl implements PostOperationWorkflow {
 
     @ActivityStub(scheduleToClose = "P1D",
-            retryOptions = @RetryActivityOptions(doNotRetry = {"java.lang.NullPointerException"}, maximumAttempts = 1
+            retryOptions = @RetryActivityOptions(doNotRetry = {"java.lang.NullPointerException", "demo.workflow.posting.PostingException"}, maximumAttempts = 1
                 ))
     private PostingActivity postingActivity;
+
+    @ActivityStub(scheduleToClose = "P1D",
+            retryOptions = @RetryActivityOptions(doNotRetry = {"java.lang.NullPointerException", "demo.workflow.posting.PostingException"}, maximumAttempts = 1
+            ))
+    private NotifyActivity notifyActivity;
 
     private PostingStatus postingStatus = new PostingStatus();
 
 
     @Override
     public void process(Operation operation) {
-        Saga.Options sagaOptions = new Saga.Options.Builder().build();
+
+        try {
+            BillingDto bill = new BillingDto(BigDecimal.valueOf(operation.getSum()), operation.getAgent());
+            postingActivity.billing(bill);
+
+            NotifyMessage message = new NotifyMessage(operation.getAgent(), "Order has been created sum:" + operation.getSum() + ", agent:" + operation.getSum());
+            notifyActivity.sendNotify(message);
+        } catch (Exception e) {
+            NotifyMessage message = new NotifyMessage(operation.getAgent(), "Not enough money in account, details - sum:" + operation.getSum() + ", agent:" + operation.getSum());
+            notifyActivity.sendNotify(message);
+        }
+
+
+
+        /*
+        Workflow.getInfo().getWorkflowId();
+        RentRequestMessage message = new RentRequestMessage();
+        message.setWorkflowId(Workflow.getInfo().getWorkflowId());
+        message.setMessage("notification to myself");
+        message.setType(RentRequestMessage.Type.RENT);
+        notifyActivity.sendBike(message);
+
+
+        Workflow.await(Duration.ofMinutes(100), () -> postingStatus.isCanceled());
+        if(postingStatus.isCanceled()) {
+           log.info("Proceed with cancel status!!!!");
+        }
+
+         */
+
+        /*Saga.Options sagaOptions = new Saga.Options.Builder().build();
         Saga saga = new Saga(sagaOptions);
 
         try {
@@ -59,6 +89,8 @@ public class PostOperationWorkflowImpl implements PostOperationWorkflow {
         } catch (Exception e) {
             saga.compensate();
         }
+
+         */
     }
 
     @Override

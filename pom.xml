@@ -13,5 +13,7 @@
         <module>billing-service</module>
         <module>posting-client</module>
         <module>outward-service</module>
+        <module>bike-service</module>
+        <module>notify-service</module>
     </modules>
 </project>

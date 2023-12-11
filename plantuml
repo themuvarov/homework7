@@ -1,0 +1,31 @@
+@startuml
+autonumber "<b>[000]"
+User -> Billing: Create account
+Billing --> User: account created
+User -> Billing: add money in account
+Billing --> User
+
+User -> Billing: check account state
+Billing --> User: return current state
+
+User -> OrderService: create order
+OrderService -> Billing: try to hold money
+alt successful case
+Billing --> OrderService: enough money
+OrderService -> Kafka: send happy mail
+Kafka -> Notifier: send Happy mail
+
+OrderService --> User: created
+else not enough money
+Billing --> OrderService: no money - no honey
+OrderService -> Kafka: send unhappy mail
+Kafka -> Notifier: send unhappy mail
+
+OrderService --> User: created
+end
+
+User -> Notifier: check messages
+Notifier --> User: return messages
+
+
+@enduml

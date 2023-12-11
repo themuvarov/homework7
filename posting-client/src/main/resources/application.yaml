@@ -1,7 +1,12 @@
 server.port: 9999
 
+spring:
+  kafka:
+    bootstrap-servers: kafka:9092
+
 spring.temporal:
   host: temporaltest-frontend
+#  host: localhost
   port: 7233
   useSsl: false
   createWorkers: true

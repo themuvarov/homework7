@@ -1,15 +1,13 @@
 package com.example.billingservice.model;
 
-import org.immutables.value.Value;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.immutables.value.Value;
 
 import java.math.BigDecimal;
 
 @Value.Immutable
-@JsonDeserialize(builder = ImmutableBillingDto.Builder.class)
-public abstract class BillingDto {
-    public abstract BigDecimal getSum();
+@JsonDeserialize(builder = ImmutableAccountDto.Builder.class)
+public abstract class AccountDto {
     public abstract String getAgent();
 
 }
