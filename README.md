@@ -1,4 +1,4 @@
-# Реализовать сервис заказа. Сервис биллинга. Сервис нотификаций.
+# Система аренды самокатов
 
 1. Клонировать репозиторий проекта
 
@@ -39,7 +39,7 @@ minikube kubectl -- get pod
 ```
 8. Запустить Postman с коллекцией из проекта
 ```
-newman run ./homework8.postman_collection.json
+newman run ./Bike_rent_service.postman_collection.json
 ```
 
 9.Посмотреть результы можно подключившись к web-console temporal.io из браузера 
