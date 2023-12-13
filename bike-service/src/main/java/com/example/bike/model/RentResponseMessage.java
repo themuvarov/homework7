@@ -1,4 +1,4 @@
-package demo.model;
+package com.example.bike.model;
 
 
 import lombok.AllArgsConstructor;
@@ -10,13 +10,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RentRequestMessage {
-    public enum Type {RENT, UNRENT, CHECK};
+public class RentResponseMessage {
+    public enum Type {AVAILABLE, NOT_AVAILABLE, OCCUPIED};
 
     private String message;
-    private Type command;
+    private Type type;
     private String workflowId;
-    private Region region;
-    private String bikeQr;
-    private Long howLong;
 }

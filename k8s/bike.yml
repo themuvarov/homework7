@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bike
+  labels:
+    app: bike
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bike
+  template:
+    metadata:
+      labels:
+        app: bike
+    spec:
+      containers:
+      - name: bike
+        image: dubec/bike:0.1.6
+        ports:
+        - containerPort: 7819
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 7819
+          successThreshold: 1
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: bike-service
+spec:
+  selector:
+    app: bike
+  ports:
+    - port: 7819
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bike-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /health/
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: arch.homework
+      http:
+        paths:
+          - pathType: Prefix
+            path: /otusapp/(.*)/(.*)
+            backend:
+              service:
+                name: bike-service
+                port:
+                  number: 7819
+          - pathType: Prefix
+            path: /health(/|$)(.*)
+            backend:
+              service:
+                name: bike-service
+                port:
+                  number: 7819
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bike-bike-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: arch.homework
+      http:
+        paths:
+          - pathType: Prefix
+            path: /bike(/|$)(.*)
+            backend:
+              service:
+                name: bike-service
+                port:
+                  number: 7819

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: orchestrator
-        image: dubec/saga_orchestrator:0.1.7
+        image: dubec/saga_orchestrator:0.2.5
         ports:
         - containerPort: 9999
         readinessProbe:

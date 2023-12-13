@@ -1,19 +1,18 @@
-package demo.kafka;
+package com.example.bike.kafka;
 
 
-import demo.model.RentRequestMessage;
-import demo.model.RentResponseMessage;
+import com.example.bike.model.RentRequestMessage;
+import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.config.SaslConfigs;
+import org.apache.kafka.common.security.plain.PlainLoginModule;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
-import org.apache.kafka.common.serialization.StringDeserializer;
-import org.apache.kafka.clients.CommonClientConfigs;
-import org.apache.kafka.common.config.SaslConfigs;
-import org.apache.kafka.common.security.plain.PlainLoginModule;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
@@ -29,14 +28,14 @@ public class KafkaConsumerConfig {
     private String bootstrapAddress;
 
     @Bean
-    public ConsumerFactory<String, RentResponseMessage> consumerFactory() {
+    public ConsumerFactory<String, RentRequestMessage> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
                 bootstrapAddress);
         props.put(
                 ConsumerConfig.GROUP_ID_CONFIG,
-                "orchestrator");
+                "bike");
         props.put(
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
                 StringDeserializer.class);
@@ -47,11 +46,11 @@ public class KafkaConsumerConfig {
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
 
         props.put(JsonDeserializer.KEY_DEFAULT_TYPE, String.class.getCanonicalName());
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, RentResponseMessage.class.getCanonicalName());
+        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, RentRequestMessage.class.getCanonicalName());
 
         props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);
 
-        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+        //props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
 
         props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
         props.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
@@ -62,9 +61,9 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, RentResponseMessage> kafkaListenerContainerFactory() {
+    public ConcurrentKafkaListenerContainerFactory<String, RentRequestMessage> kafkaListenerContainerFactory() {
 
-        ConcurrentKafkaListenerContainerFactory<String, RentResponseMessage> factory =
+        ConcurrentKafkaListenerContainerFactory<String, RentRequestMessage> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;

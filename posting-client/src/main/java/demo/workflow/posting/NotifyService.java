@@ -17,8 +17,8 @@ public class NotifyService implements NotifyActivity {
     private final KafkaTemplate<String, NotifyMessage> kafkaNotifyTemplate;
 
     public String sendMessage(RentRequestMessage msg) {
-        log.info("Sent to bike serice {} {} {}", msg.getMessage(), msg.getType(), msg.getWorkflowId());
-        kafkaRentTemplate.send("rent", msg);
+        log.info("Sent to bike service {} {} {} {} {} {}", msg.getRegion(), msg.getBikeQr(), msg.getHowLong(), msg.getMessage(), msg.getCommand(), msg.getWorkflowId());
+        kafkaRentTemplate.send("rent-in", msg);
         return "OK";
     }
 

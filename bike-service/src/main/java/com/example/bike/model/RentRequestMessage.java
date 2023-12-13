@@ -1,4 +1,4 @@
-package demo.model;
+package com.example.bike.model;
 
 
 import lombok.AllArgsConstructor;

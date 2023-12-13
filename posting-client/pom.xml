@@ -12,7 +12,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>posting-client</artifactId>
-    <version>0.1.7-SNAPSHOT</version>
+    <version>0.2.5-SNAPSHOT</version>
 
     <properties>
         <java.version>15</java.version>

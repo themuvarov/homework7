@@ -2,7 +2,8 @@ package demo.workflow.posting;
 
 import ai.applica.spring.boot.starter.temporal.annotations.TemporalWorkflow;
 import demo.model.PostingStatus;
-import demo.model.Operation;
+import demo.model.RentResponseMessage;
+import demo.model.RentingOperation;
 import io.temporal.workflow.QueryMethod;
 import io.temporal.workflow.SignalMethod;
 import io.temporal.workflow.WorkflowInterface;
@@ -13,10 +14,10 @@ import io.temporal.workflow.WorkflowMethod;
 public interface PostOperationWorkflow {
 
     @WorkflowMethod
-    void process(Operation operation);
+    void process(RentingOperation rentingOperation);
 
     @SignalMethod
-    void cancel();
+    void response(RentResponseMessage message);
 
     @QueryMethod
     PostingStatus getPostingStatus();

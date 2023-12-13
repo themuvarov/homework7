@@ -3,6 +3,7 @@ package demo.rest;
 import demo.model.PostingStatus;
 import java.util.UUID;
 
+import demo.model.RentingOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ai.applica.spring.boot.starter.temporal.WorkflowFactory;
-import demo.model.Operation;
 import demo.workflow.posting.PostOperationWorkflow;
 import io.temporal.api.common.v1.WorkflowExecution;
 import io.temporal.client.WorkflowClient;
@@ -34,19 +34,19 @@ public class PostingEndpoint {
     @Autowired
     private WorkflowClient workflowClient;
 
-    @PostMapping(value = "/operation",
+    @PostMapping(value = "/rent",
             consumes = APPLICATION_JSON_VALUE,
             produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<String> addOperationPosting(@RequestBody Operation operation) {
-        String id = "post-"+UUID.randomUUID().toString();
+    ResponseEntity<String> rentBike(@RequestBody RentingOperation rentingOperation) {
+        String id = "rent-"+UUID.randomUUID().toString();
         PostOperationWorkflow workflow =fact.makeStub(PostOperationWorkflow.class,
                 fact.defaultOptionsBuilder(PostOperationWorkflow.class)
                         .setWorkflowId(id));
-        WorkflowExecution execution = WorkflowClient.start(workflow::process, operation);
+        WorkflowExecution execution = WorkflowClient.start(workflow::process, rentingOperation);
 
         return ResponseEntity.ok(id);
     }
-
+/*
     @PutMapping(value = "/operation/{num}/cancel")
     ResponseEntity<Void> cancelBilling(@PathVariable String num) {
         workflowClient.newWorkflowStub(PostOperationWorkflow.class, num).cancel();
@@ -59,4 +59,6 @@ public class PostingEndpoint {
                 workflowClient.newWorkflowStub(PostOperationWorkflow.class, num).getPostingStatus();
         return ResponseEntity.ok(postingStatus);
     }
+
+ */
 }
